@@ -1,3 +1,4 @@
+import 'package:deezer_app/libs/auth.dart';
 import 'package:deezer_app/utils/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,6 +60,7 @@ class LoginForm extends StatelessWidget {
               children: <Widget>[
                 CircleButton(
                   iconPath: "assets/pages/login/icons/facebook.svg",
+                  onPressed: () {},
                 ),
                 SizedBox(
                   width: 20,
@@ -66,6 +68,10 @@ class LoginForm extends StatelessWidget {
                 CircleButton(
                   iconPath: "assets/pages/login/icons/google.svg",
                   backgroundColor: Color(0xffD50000),
+                  onPressed: () async {
+                    await Auth.instance.google();
+                    print("Listo");
+                  },
                 ),
               ],
             ),
