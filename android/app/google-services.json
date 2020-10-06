@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "754762077680",
+    "firebase_url": "https://flutter-apps-31d50.firebaseio.com",
+    "project_id": "flutter-apps-31d50",
+    "storage_bucket": "flutter-apps-31d50.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:754762077680:android:84dab171c52fff2abcf935",
+        "android_client_info": {
+          "package_name": "com.example.deezer_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "754762077680-b9pbi9m4pvvqe4rrq1qnikrhmnehvh3c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.deezer_app",
+            "certificate_hash": "0614be35b91c323a09606678e8204403f17a8304"
+          }
+        },
+        {
+          "client_id": "754762077680-oqion8ku4h13n0hc9il9ig2icttn8klh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkhKpysVugnvwPUioMK_Pn97zelQqucqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "754762077680-oqion8ku4h13n0hc9il9ig2icttn8klh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
