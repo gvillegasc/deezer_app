@@ -9,6 +9,7 @@ import 'package:deezer_app/pages/login/widgets/login_form.dart';
 import 'package:after_layout/after_layout.dart';
 
 class LoginPage extends StatefulWidget {
+  static final routeName = 'login';
   @override
   _LoginPageState createState() => _LoginPageState();
 }

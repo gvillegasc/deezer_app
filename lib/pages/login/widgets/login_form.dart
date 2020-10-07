@@ -1,5 +1,7 @@
 import 'package:deezer_app/libs/auth.dart';
+import 'package:deezer_app/pages/home/home_page.dart';
 import 'package:deezer_app/utils/responsive.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -9,6 +11,14 @@ import 'package:deezer_app/widgets/rounded_button.dart';
 import 'package:deezer_app/widgets/circle_button.dart';
 
 class LoginForm extends StatelessWidget {
+  void _goTo(BuildContext context, User user) {
+    if (user != null) {
+      Navigator.pushReplacementNamed(context, HomePage.routeName);
+    } else {
+      print("Login failed");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
@@ -60,7 +70,10 @@ class LoginForm extends StatelessWidget {
               children: <Widget>[
                 CircleButton(
                   iconPath: "assets/pages/login/icons/facebook.svg",
-                  onPressed: () {},
+                  onPressed: () async {
+                    final User user = await Auth.instance.facebook();
+                    _goTo(context, user);
+                  },
                 ),
                 SizedBox(
                   width: 20,
@@ -69,14 +82,16 @@ class LoginForm extends StatelessWidget {
                   iconPath: "assets/pages/login/icons/google.svg",
                   backgroundColor: Color(0xffD50000),
                   onPressed: () async {
-                    await Auth.instance.google();
+                    final User user = await Auth.instance.google();
+                    _goTo(context, user);
+
                     print("Listo");
                   },
                 ),
               ],
             ),
             SizedBox(
-              height: responsive.ip(2.7),
+              height: responsive.ip(2),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
