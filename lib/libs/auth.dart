@@ -1,4 +1,5 @@
 import 'package:deezer_app/pages/login/login_page.dart';
+import 'package:deezer_app/utils/dialogs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -16,8 +17,10 @@ class Auth {
     return _firebaseAuth.currentUser;
   }
 
-  Future<User> google() async {
+  Future<User> google(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
     try {
+      progressDialog.show();
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
       final GoogleSignInAuthentication authentication =
           await googleUser.authentication;
@@ -30,31 +33,19 @@ class Auth {
           await _firebaseAuth.signInWithCredential(credential);
 
       final User user = userCredential.user;
+      progressDialog.dismiss();
       return user;
     } catch (e) {
+      progressDialog.dismiss();
+
       return null;
     }
   }
 
-  Future<void> facebook2() async {
+  Future<User> facebook(BuildContext context) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
     try {
-      final LoginResult result = await FacebookAuth.instance.login();
-      if (result.status == 200) {
-        print("Facebook login ok");
-        final userData = await FacebookAuth.instance.getUserData();
-        print(userData);
-      } else if (result.status == 403) {
-        print("Facebook login cancelled");
-      } else {
-        print("Facebook login failed");
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future<User> facebook() async {
-    try {
+      progressDialog.show();
       final facebookLogin = new FacebookLogin();
       facebookLogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
       final facebookLoginResult = await facebookLogin.logIn(['email']);
@@ -66,6 +57,7 @@ class Auth {
           final UserCredential userCredential =
               await _firebaseAuth.signInWithCredential(credential);
           final User user = userCredential.user;
+          progressDialog.dismiss();
           return user;
         case FacebookLoginStatus.cancelledByUser:
           // onLoginStatusChanged(false);
@@ -77,6 +69,7 @@ class Auth {
           return null;
       }
     } catch (e) {
+      progressDialog.show();
       return null;
     }
   }
