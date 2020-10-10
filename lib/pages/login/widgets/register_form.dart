@@ -1,6 +1,7 @@
 import 'package:deezer_app/libs/auth.dart';
 import 'package:deezer_app/pages/home/home_page.dart';
 import 'package:deezer_app/utils/app_colors.dart';
+import 'package:deezer_app/utils/dialogs.dart';
 import 'package:deezer_app/utils/responsive.dart';
 import 'package:deezer_app/widgets/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,11 +23,44 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   bool _agree = false;
 
-  void _goTo(BuildContext context, User user) {
+  final GlobalKey<InputTextLoginState> _usernameKey = GlobalKey();
+  final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
+  final GlobalKey<InputTextLoginState> _passwordKey = GlobalKey();
+  final GlobalKey<InputTextLoginState> _vpasswordKey = GlobalKey();
+
+  void _goTo(User user) {
     if (user != null) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     } else {
-      print("Login failed");
+      print("Register failed");
+    }
+  }
+
+  _submit() async {
+    final String username = _usernameKey.currentState.value;
+    final String email = _emailKey.currentState.value;
+    final String password = _passwordKey.currentState.value;
+    // final String vpassword = _vpasswordKey.currentState.value;
+
+    final bool usernameOk = _usernameKey.currentState.isOk;
+    final bool emailOk = _emailKey.currentState.isOk;
+    final bool passwordOk = _passwordKey.currentState.isOk;
+    final bool vpasswordOk = _vpasswordKey.currentState.isOk;
+
+    if (usernameOk && emailOk && passwordOk && vpasswordOk) {
+      if (_agree) {
+        final User user = await Auth.instance.signUp(context,
+            username: username, email: email, password: password);
+
+        _goTo(user);
+      } else {
+        Dialogs.alert(context,
+            title: "Aviso",
+            description: 'You need to accept the terms and conditions');
+      }
+    } else {
+      Dialogs.alert(context,
+          title: "Aviso", description: 'Some fields are invalid');
     }
   }
 
@@ -64,29 +98,51 @@ class _RegisterFormState extends State<RegisterForm> {
                 height: responsive.ip(2),
               ),
               InputTextLogin(
+                key: _usernameKey,
                 iconPath: 'assets/pages/login/icons/email.svg',
                 placeholder: 'Username',
+                validator: (text) {
+                  return text.trim().length > 0;
+                },
               ),
               SizedBox(
                 height: responsive.ip(2),
               ),
               InputTextLogin(
+                key: _emailKey,
                 iconPath: 'assets/pages/login/icons/email.svg',
                 placeholder: 'Email Address',
+                keyboardType: TextInputType.emailAddress,
+                validator: (text) {
+                  return text.contains('@');
+                },
               ),
               SizedBox(
                 height: responsive.ip(2),
               ),
               InputTextLogin(
+                key: _passwordKey,
                 iconPath: 'assets/pages/login/icons/key.svg',
                 placeholder: 'Password',
+                obscureText: true,
+                validator: (text) {
+                  _vpasswordKey.currentState.checkValidation();
+                  return text.trim().length >= 6;
+                },
               ),
               SizedBox(
                 height: responsive.ip(2),
               ),
               InputTextLogin(
+                key: _vpasswordKey,
                 iconPath: 'assets/pages/login/icons/key.svg',
                 placeholder: 'Confirm Password',
+                obscureText: true,
+                validator: (text) {
+                  return text.trim().length >= 6 &&
+                      _vpasswordKey.currentState.value ==
+                          _passwordKey.currentState.value;
+                },
               ),
               SizedBox(
                 height: responsive.ip(2),
@@ -152,7 +208,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                   RoundedButton(
                     label: "Sign Up",
-                    onPressed: () {},
+                    onPressed: _submit,
                   ),
                 ],
               ),

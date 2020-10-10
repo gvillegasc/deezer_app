@@ -1,6 +1,7 @@
 import 'package:deezer_app/pages/login/login_page.dart';
 import 'package:deezer_app/utils/dialogs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -42,6 +43,38 @@ class Auth {
     }
   }
 
+  Future<User> signUp(BuildContext context,
+      {@required String username,
+      @required String email,
+      @required String password}) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
+    try {
+      progressDialog.show();
+
+      final UserCredential userCredential = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+      if (userCredential.user != null) {
+        await userCredential.user.updateProfile(displayName: username);
+        progressDialog.dismiss();
+        return userCredential.user;
+      }
+      progressDialog.dismiss();
+      return null;
+    } catch (e) {
+      print(e.code);
+      String message = "Unknown error";
+
+      if (e.code == "email-already-in-use" ||
+          e.code == "ERROR_EMAIL_ALREADY_IN_USE") {
+        message = e.message;
+      }
+      progressDialog.dismiss();
+      Dialogs.alert(context, title: 'ERROR', description: message);
+
+      return null;
+    }
+  }
+
   Future<User> facebook(BuildContext context) async {
     ProgressDialog progressDialog = ProgressDialog(context);
     try {
@@ -71,6 +104,20 @@ class Auth {
     } catch (e) {
       progressDialog.show();
       return null;
+    }
+  }
+
+  Future<bool> sendResetEmailLink(BuildContext context,
+      {@required String email}) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
+
+    try {
+      progressDialog.show();
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 
