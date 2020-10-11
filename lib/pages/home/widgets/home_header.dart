@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 // Widgets
 import 'package:deezer_app/pages/home/widgets/my_avatar.dart';
+import 'package:flutter_inner_drawer/inner_drawer.dart';
 
 class HomeHeader extends StatelessWidget {
+  final GlobalKey<InnerDrawerState> drawerKey;
+
+  const HomeHeader({Key key, @required this.drawerKey})
+      : assert(drawerKey != null),
+        super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
@@ -18,7 +25,13 @@ class HomeHeader extends StatelessWidget {
               ),
             ),
             Positioned(
-              child: MyAvatar(),
+              top: 10,
+              right: 10,
+              child: SafeArea(child: MyAvatar(
+                onPressed: () {
+                  this.drawerKey.currentState.open();
+                },
+              )),
             )
           ],
         ),

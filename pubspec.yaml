@@ -31,6 +31,7 @@ dependencies:
   google_sign_in: ^4.5.4
   flutter_facebook_auth: ^0.3.2
   flutter_facebook_login: ^3.0.0
+  flutter_inner_drawer: "^0.5.7+2"
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +50,7 @@ flutter:
   assets:
     - assets/pages/login/
     - assets/pages/login/icons/
+    - assets/pages/home/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
   # For details regarding adding assets from package dependencies, see
