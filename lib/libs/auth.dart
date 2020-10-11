@@ -18,6 +18,36 @@ class Auth {
     return _firebaseAuth.currentUser;
   }
 
+  Future<User> loginByPassword(BuildContext context,
+      {@required String email, @required String password}) async {
+    ProgressDialog progressDialog = ProgressDialog(context);
+
+    try {
+      progressDialog.show();
+      final UserCredential userCredential = await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password);
+      progressDialog.dismiss();
+      if (userCredential.user != null) {
+        return userCredential.user;
+      }
+      return null;
+    } catch (e) {
+      print(e);
+      progressDialog.dismiss();
+      String message = "Unknown error";
+
+      if (e.code == "firebase_auth/user-not-found" ||
+          e.code == "ERROR_USER_NOT_FOUND") {
+        message = e.message;
+      } else {
+        message = e.message;
+      }
+      Dialogs.alert(context, title: 'ERROR', description: message);
+
+      return null;
+    }
+  }
+
   Future<User> google(BuildContext context) async {
     ProgressDialog progressDialog = ProgressDialog(context);
     try {
@@ -61,7 +91,6 @@ class Auth {
       progressDialog.dismiss();
       return null;
     } catch (e) {
-      print(e.code);
       String message = "Unknown error";
 
       if (e.code == "email-already-in-use" ||
@@ -114,9 +143,12 @@ class Auth {
     try {
       progressDialog.show();
       await _firebaseAuth.sendPasswordResetEmail(email: email);
+      progressDialog.dismiss();
+
       return true;
     } catch (e) {
-      print(e);
+      progressDialog.dismiss();
+      Dialogs.alert(context, title: 'ERROR', description: e.message);
       return false;
     }
   }

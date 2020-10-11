@@ -38,7 +38,7 @@ class InputTextLoginState extends State<InputTextLogin> {
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initValue);
-    checkValidation();
+    // checkValidation();
   }
 
   void checkValidation() {

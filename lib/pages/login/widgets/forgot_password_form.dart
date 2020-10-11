@@ -21,13 +21,28 @@ class ForgotPasswordForm extends StatefulWidget {
 }
 
 class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
-  bool _agree = false;
+  bool _send = false;
+
+  final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
 
   void _goTo(BuildContext context, User user) {
     if (user != null) {
       Navigator.pushReplacementNamed(context, HomePage.routeName);
     } else {
       print("Login failed");
+    }
+  }
+
+  Future<void> _submit() async {
+    final String email = _emailKey.currentState.value;
+
+    final bool emailOk = _emailKey.currentState.isOk;
+    if (emailOk) {
+      final isOk =
+          await Auth.instance.sendResetEmailLink(context, email: email);
+      setState(() {
+        _send = isOk;
+      });
     }
   }
 
@@ -64,10 +79,17 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
               SizedBox(
                 height: responsive.ip(2),
               ),
-              InputTextLogin(
-                iconPath: 'assets/pages/login/icons/email.svg',
-                placeholder: 'Email Address',
-              ),
+              _send
+                  ? Text("The email to reset your password aws send.")
+                  : InputTextLogin(
+                      iconPath: 'assets/pages/login/icons/email.svg',
+                      placeholder: 'Email Address',
+                      key: _emailKey,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (text) {
+                        return text.contains('@');
+                      },
+                    ),
               SizedBox(
                 height: responsive.ip(2),
               ),
@@ -86,13 +108,15 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
                     ),
                     onPressed: widget.onGoToLogin,
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  RoundedButton(
-                    label: "Send",
-                    onPressed: () {},
-                  ),
+                  if (!_send) ...[
+                    SizedBox(
+                      width: 10,
+                    ),
+                    RoundedButton(
+                      label: "Send",
+                      onPressed: this._submit,
+                    ),
+                  ]
                 ],
               ),
               SizedBox(

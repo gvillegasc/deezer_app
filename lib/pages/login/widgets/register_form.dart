@@ -2,6 +2,7 @@ import 'package:deezer_app/libs/auth.dart';
 import 'package:deezer_app/pages/home/home_page.dart';
 import 'package:deezer_app/utils/app_colors.dart';
 import 'package:deezer_app/utils/dialogs.dart';
+import 'package:deezer_app/utils/extras.dart';
 import 'package:deezer_app/utils/responsive.dart';
 import 'package:deezer_app/widgets/rounded_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,9 +13,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:deezer_app/pages/login/widgets/input_text_login.dart';
 
 class RegisterForm extends StatefulWidget {
+  final Alignment alignment;
   final VoidCallback onGoToLogin;
 
-  const RegisterForm({Key key, @required this.onGoToLogin}) : super(key: key);
+  const RegisterForm({Key key, @required this.onGoToLogin, this.alignment})
+      : super(key: key);
 
   @override
   _RegisterFormState createState() => _RegisterFormState();
@@ -68,7 +71,7 @@ class _RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     final Responsive responsive = Responsive.of(context);
     return Align(
-      alignment: Alignment.bottomCenter,
+      alignment: widget.alignment,
       child: SafeArea(
         top: false,
         child: Container(
@@ -125,10 +128,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 iconPath: 'assets/pages/login/icons/key.svg',
                 placeholder: 'Password',
                 obscureText: true,
-                validator: (text) {
-                  _vpasswordKey.currentState.checkValidation();
-                  return text.trim().length >= 6;
-                },
+                validator: (text) => Extras.isValidEmail(text),
               ),
               SizedBox(
                 height: responsive.ip(2),
