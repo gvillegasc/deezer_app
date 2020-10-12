@@ -19,6 +19,18 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield* this._mapCheckDb(event);
     } else if (event is OnSearchEvent) {
       yield this.state.copyWith(searchText: event.searchText);
+    } else if (event is OnSelectedEvent) {
+      yield* this._mapOnSelected(event);
+    }
+  }
+
+  Stream<HomeState> _mapOnSelected(OnSelectedEvent event) async* {
+    final int id = event.id;
+    final List<ArtistModel> tmp = List.from(this.state.artists);
+    final int index = tmp.indexWhere((element) => element.id == id);
+    if (index != -1) {
+      tmp[index] = tmp[index].onSelected();
+      yield this.state.copyWith(artists: tmp);
     }
   }
 

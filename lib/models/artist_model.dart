@@ -3,8 +3,14 @@ class ArtistModel {
   final String name;
   final String picture;
   final String tracklist;
+  final bool selected;
 
-  ArtistModel({this.id, this.name, this.picture, this.tracklist});
+  ArtistModel(
+      {this.id,
+      this.name,
+      this.picture,
+      this.tracklist,
+      this.selected = false});
 
   factory ArtistModel.fromJson(Map<String, dynamic> json) {
     return ArtistModel(
@@ -12,6 +18,15 @@ class ArtistModel {
         name: json['name'],
         picture: json['picture_big'],
         tracklist: json['tracklist']);
+  }
+
+  ArtistModel onSelected() {
+    return ArtistModel(
+        id: this.id,
+        name: this.name,
+        picture: this.picture,
+        tracklist: this.tracklist,
+        selected: !this.selected);
   }
 
   Map<String, dynamic> toJson() {

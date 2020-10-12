@@ -12,3 +12,8 @@ class OnSearchEvent extends HomeEvent {
 }
 
 class DownloadEvent extends HomeEvent {}
+
+class OnSelectedEvent extends HomeEvent {
+  final int id;
+  OnSelectedEvent(this.id);
+}
