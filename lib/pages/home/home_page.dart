@@ -1,5 +1,6 @@
 import 'package:deezer_app/libs/auth.dart';
 import 'package:deezer_app/pages/home/widgets/artists_picker.dart';
+import 'package:deezer_app/pages/home/widgets/search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,45 +47,49 @@ class _HomePageState extends State<HomePage> {
             rightChild: Container(
               color: Colors.white,
             ),
-            scaffold: Scaffold(
-              body: CustomScrollView(
-                slivers: <Widget>[
-                  HomeHeader(
-                    drawerKey: _drawerKey,
-                  ),
-                  BlocBuilder<HomeBloc, HomeState>(
-                    builder: (_, state) {
-                      if (state.status == HomeStatus.seletecing) {
-                        return ArtistsPicker();
-                      }
-                      String text = "";
-                      switch (state.status) {
-                        case HomeStatus.checking:
-                          text = "Checking Database ...";
-                          break;
-                        case HomeStatus.loading:
-                          text = "Loading Artist ...";
-                          break;
-                        default:
-                          text = "";
-                      }
+            scaffold: GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: Scaffold(
+                body: CustomScrollView(
+                  slivers: <Widget>[
+                    HomeHeader(
+                      drawerKey: _drawerKey,
+                    ),
+                    Search(),
+                    BlocBuilder<HomeBloc, HomeState>(
+                      builder: (_, state) {
+                        if (state.status == HomeStatus.seletecing) {
+                          return ArtistsPicker();
+                        }
+                        String text = "";
+                        switch (state.status) {
+                          case HomeStatus.checking:
+                            text = "Checking Database ...";
+                            break;
+                          case HomeStatus.loading:
+                            text = "Loading Artist ...";
+                            break;
+                          default:
+                            text = "";
+                        }
 
-                      return SliverFillRemaining(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 10),
-                              child: LinearProgressIndicator(),
-                            ),
-                            Text(text)
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                ],
+                        return SliverFillRemaining(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 30, vertical: 10),
+                                child: LinearProgressIndicator(),
+                              ),
+                              Text(text)
+                            ],
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
               ),
             )));
   }

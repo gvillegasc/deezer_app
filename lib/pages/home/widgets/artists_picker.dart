@@ -26,7 +26,10 @@ class ArtistsPicker extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(artist.name)
+                Text(
+                  artist.name,
+                  textAlign: TextAlign.center,
+                )
               ]);
             }, childCount: state.artists.length),
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
