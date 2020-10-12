@@ -1,8 +1,10 @@
+import 'package:deezer_app/pages/home/widgets/bird.dart';
 import 'package:flutter/material.dart';
 
 // Widgets
 import 'package:deezer_app/pages/home/widgets/my_avatar.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeHeader extends StatelessWidget {
   final GlobalKey<InnerDrawerState> drawerKey;
@@ -16,24 +18,42 @@ class HomeHeader extends StatelessWidget {
     return SliverToBoxAdapter(
       child: AspectRatio(
         aspectRatio: 16 / 11,
-        child: Stack(
-          children: [
-            ClipPath(
-              clipper: _MyCustomClipper(),
-              child: Container(
-                color: Color(0xff01579b),
-              ),
-            ),
-            Positioned(
-              top: 10,
-              right: 10,
-              child: SafeArea(child: MyAvatar(
-                onPressed: () {
-                  this.drawerKey.currentState.open();
-                },
-              )),
-            )
-          ],
+        child: LayoutBuilder(
+          builder: (_, BoxConstraints constraints) {
+            return Stack(
+              children: [
+                ClipPath(
+                  clipper: _MyCustomClipper(),
+                  child: Container(
+                    color: Color(0xff01579b),
+                  ),
+                ),
+                Positioned(
+                  bottom: 0,
+                  right: 0,
+                  child: SvgPicture.asset(
+                    "assets/pages/home/happy.svg",
+                    width: constraints.maxWidth * 0.55,
+                  ),
+                ),
+                Positioned(
+                    bottom: constraints.maxHeight * 0.09,
+                    right: constraints.maxWidth * 0.163,
+                    child: Bird(
+                      size: constraints.maxWidth * 0.22,
+                    )),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: SafeArea(child: MyAvatar(
+                    onPressed: () {
+                      this.drawerKey.currentState.open();
+                    },
+                  )),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
