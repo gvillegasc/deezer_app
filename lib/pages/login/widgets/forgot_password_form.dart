@@ -1,9 +1,7 @@
 import 'package:deezer_app/libs/auth.dart';
-import 'package:deezer_app/pages/home/home_page.dart';
 import 'package:deezer_app/utils/app_colors.dart';
 import 'package:deezer_app/utils/responsive.dart';
 import 'package:deezer_app/widgets/rounded_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -24,14 +22,6 @@ class _ForgotPasswordFormState extends State<ForgotPasswordForm> {
   bool _send = false;
 
   final GlobalKey<InputTextLoginState> _emailKey = GlobalKey();
-
-  void _goTo(BuildContext context, User user) {
-    if (user != null) {
-      Navigator.pushReplacementNamed(context, HomePage.routeName);
-    } else {
-      print("Login failed");
-    }
-  }
 
   Future<void> _submit() async {
     final String email = _emailKey.currentState.value;

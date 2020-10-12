@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:deezer_app/api/deezer_api.dart';
 import 'package:deezer_app/bloc/home/bloc.dart';
 import 'package:deezer_app/models/artist_model.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'home_events.dart';
 import 'home_state.dart';
 
@@ -15,6 +17,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is CheckDbEvent) {
       yield* this._mapCheckDb(event);
+    } else if (event is OnSearchEvent) {
+      yield this.state.copyWith(searchText: event.searchText);
     }
   }
 
@@ -22,11 +26,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await Future.delayed(Duration(seconds: 2));
     final List<ArtistModel> artists = await DeezerAPI.instance.getArtists();
     if (artists != null) {
-      yield this
-          .state
-          .copyWith(status: HomeStatus.seletecing, artists: artists);
+      yield this.state.copyWith(status: HomeStatus.selecting, artists: artists);
     } else {
       yield this.state.copyWith(status: HomeStatus.error);
     }
+  }
+
+  static HomeBloc of(BuildContext context) {
+    return BlocProvider.of<HomeBloc>(context);
   }
 }

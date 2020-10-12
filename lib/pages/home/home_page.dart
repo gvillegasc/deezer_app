@@ -1,4 +1,3 @@
-import 'package:deezer_app/libs/auth.dart';
 import 'package:deezer_app/pages/home/widgets/artists_picker.dart';
 import 'package:deezer_app/pages/home/widgets/search.dart';
 import 'package:flutter/cupertino.dart';
@@ -58,7 +57,7 @@ class _HomePageState extends State<HomePage> {
                     Search(),
                     BlocBuilder<HomeBloc, HomeState>(
                       builder: (_, state) {
-                        if (state.status == HomeStatus.seletecing) {
+                        if (state.status == HomeStatus.selecting) {
                           return ArtistsPicker();
                         }
                         String text = "";

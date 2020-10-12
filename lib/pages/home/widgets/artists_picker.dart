@@ -10,11 +10,17 @@ class ArtistsPicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (_, state) {
+        final List<ArtistModel> artists = state.artists
+            .where((element) => element.name
+                .toLowerCase()
+                .contains(state.searchText.toLowerCase()))
+            .toList();
+
         return SliverPadding(
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
           sliver: SliverGrid(
             delegate: SliverChildBuilderDelegate((_, index) {
-              final ArtistModel artist = state.artists[index];
+              final ArtistModel artist = artists[index];
               return Column(children: <Widget>[
                 Expanded(
                   child: ClipOval(
@@ -31,7 +37,7 @@ class ArtistsPicker extends StatelessWidget {
                   textAlign: TextAlign.center,
                 )
               ]);
-            }, childCount: state.artists.length),
+            }, childCount: artists.length),
             gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 130,
                 mainAxisSpacing: 10,
