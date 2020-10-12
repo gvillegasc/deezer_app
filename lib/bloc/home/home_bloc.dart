@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:deezer_app/api/deezer_api.dart';
 import 'package:deezer_app/bloc/home/bloc.dart';
 import 'package:deezer_app/models/artist_model.dart';
+import 'package:deezer_app/models/track_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'home_events.dart';
@@ -21,6 +22,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield this.state.copyWith(searchText: event.searchText);
     } else if (event is OnSelectedEvent) {
       yield* this._mapOnSelected(event);
+    } else if (event is DownloadEvent) {
+      yield* this._mapDownloadTracks(event);
+    }
+  }
+
+  Stream<HomeState> _mapDownloadTracks(DownloadEvent event) async* {
+    yield this.state.copyWith(status: HomeStatus.downloading);
+    for (final ArtistModel artist in event.artistSeleted) {
+      final List<TrackModel> tracks =
+          await DeezerAPI.instance.getTracks(artist.id);
+      print("artist ${artist.id} track: ${tracks.length}");
     }
   }
 
