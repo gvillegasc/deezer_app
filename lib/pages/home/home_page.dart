@@ -1,5 +1,6 @@
 import 'package:deezer_app/pages/home/widgets/artists_picker.dart';
 import 'package:deezer_app/pages/home/widgets/home_bottom_bar.dart';
+import 'package:deezer_app/pages/home/widgets/my_artists.dart';
 import 'package:deezer_app/pages/home/widgets/search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -61,6 +62,8 @@ class _HomePageState extends State<HomePage> {
                       builder: (_, state) {
                         if (state.status == HomeStatus.selecting) {
                           return ArtistsPicker();
+                        } else if (state.status == HomeStatus.ready) {
+                          return MyArtists();
                         }
                         String text = "";
                         switch (state.status) {

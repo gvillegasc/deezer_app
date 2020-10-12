@@ -41,6 +41,16 @@ class ArtistModel {
         tracks: this.tracks);
   }
 
+  ArtistModel addTracks(List<TrackModel> tracks) {
+    return ArtistModel(
+        id: this.id,
+        name: this.name,
+        picture: this.picture,
+        tracklist: this.tracklist,
+        selected: this.selected,
+        tracks: tracks);
+  }
+
   Map<String, dynamic> toJson() {
     final List<Map<String, dynamic>> tracks =
         this.tracks.map((e) => e.toJson()).toList();

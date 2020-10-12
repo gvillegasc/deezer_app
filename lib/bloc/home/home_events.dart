@@ -14,9 +14,9 @@ class OnSearchEvent extends HomeEvent {
 }
 
 class DownloadEvent extends HomeEvent {
-  final List<ArtistModel> artistSeleted;
+  final List<ArtistModel> artistsSeleted;
 
-  DownloadEvent(this.artistSeleted);
+  DownloadEvent(this.artistsSeleted);
 }
 
 class OnSelectedEvent extends HomeEvent {

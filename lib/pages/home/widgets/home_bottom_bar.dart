@@ -42,7 +42,9 @@ class HomeBottomBar extends StatelessWidget {
                 )),
           );
         }
-        return SizedBox();
+        return Container(
+          height: 0,
+        );
       },
     );
   }
