@@ -6,9 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:deezer_app/pages/login/login_page.dart';
 import 'package:deezer_app/pages/home/home_page.dart';
 
+import 'db/db.dart';
+
 void main() async {
   // await Firebase.initializeApp();
   WidgetsFlutterBinding.ensureInitialized();
+  await DB.instance.init();
   runApp(MyApp());
 }
 
