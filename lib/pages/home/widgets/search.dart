@@ -1,4 +1,5 @@
 import 'package:deezer_app/bloc/home/bloc.dart';
+import 'package:deezer_app/db/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,11 @@ class _SearchState extends State<Search> {
                     onChanged: (text) {
                       bloc.add(OnSearchEvent(text));
                     },
-                    style: TextStyle(fontFamily: "Sans"),
+                    style: TextStyle(
+                        fontFamily: "Sans",
+                        color: MyAppTheme.instance.darkEnabled
+                            ? Colors.white
+                            : Colors.black),
                     suffix: state.searchText.length > 0
                         ? Padding(
                             padding: EdgeInsets.only(
@@ -54,7 +59,9 @@ class _SearchState extends State<Search> {
                         : null,
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
                     decoration: BoxDecoration(
-                        color: Color(0xffdddddd),
+                        color: MyAppTheme.instance.darkEnabled
+                            ? Color(0xff29434e)
+                            : Color(0xffdddddd),
                         borderRadius: BorderRadius.circular(30)),
                   ),
                 )

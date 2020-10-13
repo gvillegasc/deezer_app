@@ -1,4 +1,5 @@
 import 'package:deezer_app/bloc/home/bloc.dart';
+import 'package:deezer_app/db/app_theme.dart';
 import 'package:deezer_app/models/artist_model.dart';
 import 'package:deezer_app/widgets/rounded_button.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,9 @@ class HomeBottomBar extends StatelessWidget {
               .toList();
           final int count = artistsSelected.length;
           return Container(
-            color: Colors.white,
+            color: MyAppTheme.instance.darkEnabled
+                ? MyAppTheme.instance.darkColor
+                : Colors.white,
             padding: EdgeInsets.all(10),
             child: SafeArea(
                 top: false,
@@ -42,9 +45,7 @@ class HomeBottomBar extends StatelessWidget {
                 )),
           );
         }
-        return Container(
-          height: 0,
-        );
+        return SizedBox();
       },
     );
   }

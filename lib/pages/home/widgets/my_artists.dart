@@ -3,6 +3,7 @@ import 'package:deezer_app/bloc/home/home_bloc.dart';
 import 'package:deezer_app/bloc/home/home_state.dart';
 import 'package:deezer_app/db/app_theme.dart';
 import 'package:deezer_app/models/artist_model.dart';
+import 'package:deezer_app/pages/music_player/music_player_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,13 @@ class MyArtists extends StatelessWidget {
               padding: EdgeInsets.all(8),
               child: CupertinoButton(
                 padding: EdgeInsets.zero,
-                onPressed: () {},
+                onPressed: () {
+                  final route = MaterialPageRoute(
+                      builder: (_) => MusicPlayerPage(
+                            artist: artist,
+                          ));
+                  Navigator.push(context, route);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                       color: MyAppTheme.instance.darkEnabled
@@ -29,41 +36,37 @@ class MyArtists extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Row(
-                        children: [
-                          ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl: artist.picture,
-                              width: 60,
+                      ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: artist.picture,
+                          width: 60,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              artist.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: MyAppTheme.instance.darkEnabled
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "Sans"),
                             ),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  artist.name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 17,
-                                      color: MyAppTheme.instance.darkEnabled
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontWeight: FontWeight.w700,
-                                      fontFamily: "Sans"),
-                                ),
-                                Text(
-                                  "${artist.tracks.length} tracks",
-                                  style: TextStyle(fontSize: 15),
-                                ),
-                              ],
+                            Text(
+                              "${artist.tracks.length} tracks",
+                              style: TextStyle(fontSize: 15),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.all(10),

@@ -14,10 +14,12 @@ class MyAppTheme extends ChangeNotifier {
   bool _darkEnabled;
   bool get darkEnabled => _darkEnabled;
 
+  final Color darkColor = Color(0xff102027);
+
   ThemeData get theme {
     if (_darkEnabled) {
       return ThemeData(
-          scaffoldBackgroundColor: Color(0xff102027),
+          scaffoldBackgroundColor: this.darkColor,
           fontFamily: "Sans",
           brightness: Brightness.dark);
     }

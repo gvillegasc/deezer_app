@@ -1,3 +1,6 @@
+import 'package:deezer_app/db/app_theme.dart';
+import 'package:deezer_app/db/artists_store.dart';
+import 'package:deezer_app/libs/auth.dart';
 import 'package:deezer_app/pages/home/widgets/artists_picker.dart';
 import 'package:deezer_app/pages/home/widgets/home_bottom_bar.dart';
 import 'package:deezer_app/pages/home/widgets/my_artists.dart';
@@ -38,6 +41,12 @@ class _HomePageState extends State<HomePage> {
     ));
   }
 
+  Future<void> _logOut() async {
+    await ArtistsStore.instance.clear();
+    await MyAppTheme.instance.setTheme(false);
+    await Auth.instance.logOut(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -47,6 +56,17 @@ class _HomePageState extends State<HomePage> {
             onTapClose: true,
             rightChild: Container(
               color: Theme.of(context).scaffoldBackgroundColor,
+              child: SafeArea(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    FlatButton(
+                      onPressed: this._logOut,
+                      child: Text("Log out"),
+                    )
+                  ],
+                ),
+              ),
             ),
             scaffold: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
