@@ -1,7 +1,9 @@
 import 'package:deezer_app/bloc/music_player/bloc.dart';
 import 'package:deezer_app/models/artist_model.dart';
 import 'package:deezer_app/pages/music_player/current_track_view.dart';
+import 'package:deezer_app/pages/music_player/music_controls.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MusicPlayerPage extends StatefulWidget {
@@ -21,6 +23,10 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
   void initState() {
     super.initState();
     _bloc = MusicPlayerBloc(widget.artist);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+    ));
   }
 
   @override
@@ -39,7 +45,7 @@ class _MusicPlayerPageState extends State<MusicPlayerPage> {
             width: double.infinity,
             child: SafeArea(
               child: Column(
-                children: <Widget>[CurrentTrackView()],
+                children: <Widget>[CurrentTrackView(), MusicControls()],
               ),
             ),
           ),

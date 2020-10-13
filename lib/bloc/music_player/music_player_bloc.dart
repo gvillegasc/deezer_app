@@ -14,7 +14,19 @@ class MusicPlayerBloc extends Bloc<MusicPlayerEvent, MusicPlayerState> {
   MusicPlayerBloc(this.artist) : super(MusicPlayerState.initialState());
 
   @override
-  Stream<MusicPlayerState> mapEventToState(MusicPlayerEvent event) async* {}
+  Stream<MusicPlayerState> mapEventToState(MusicPlayerEvent event) async* {
+    if (event is NextTrackEvent) {
+      final index = this.state.currentTrackIndex + 1;
+      if (index < artist.tracks.length) {
+        yield this.state.copyWith(currentTrackIndex: index);
+      }
+    } else if (event is PrevTrackEvent) {
+      final index = this.state.currentTrackIndex - 1;
+      if (index >= 0) {
+        yield this.state.copyWith(currentTrackIndex: index);
+      }
+    }
+  }
 
   static MusicPlayerBloc of(BuildContext context) {
     return BlocProvider.of<MusicPlayerBloc>(context);

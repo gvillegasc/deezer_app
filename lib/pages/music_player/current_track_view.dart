@@ -36,7 +36,17 @@ class CurrentTrackView extends StatelessWidget {
               Text(
                 currentTrack.title,
                 style: TextStyle(fontSize: 19, fontWeight: FontWeight.w700),
-              )
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                "${state.currentTrackIndex + 1}/${bloc.artist.tracks.length}",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w100),
+              ),
+              SizedBox(
+                height: 5,
+              ),
             ],
           );
         },
