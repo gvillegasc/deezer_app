@@ -1,3 +1,4 @@
+import 'package:deezer_app/db/app_theme.dart';
 import 'package:deezer_app/pages/home/widgets/bird.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +51,16 @@ class HomeHeader extends StatelessWidget {
                       this.drawerKey.currentState.open();
                     },
                   )),
+                ),
+                Positioned(
+                  top: 10,
+                  left: 10,
+                  child: SafeArea(
+                      child: Switch(
+                          value: MyAppTheme.instance.darkEnabled,
+                          onChanged: (value) {
+                            MyAppTheme.instance.setTheme(value);
+                          })),
                 ),
               ],
             );

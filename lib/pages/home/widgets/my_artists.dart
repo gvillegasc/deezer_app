@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:deezer_app/bloc/home/home_bloc.dart';
 import 'package:deezer_app/bloc/home/home_state.dart';
+import 'package:deezer_app/db/app_theme.dart';
 import 'package:deezer_app/models/artist_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,11 @@ class MyArtists extends StatelessWidget {
                 padding: EdgeInsets.zero,
                 onPressed: () {},
                 child: Container(
+                  decoration: BoxDecoration(
+                      color: MyAppTheme.instance.darkEnabled
+                          ? Color(0xff37474f).withOpacity(0.1)
+                          : Color(0xfff0f0f0),
+                      borderRadius: BorderRadius.circular(35)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -41,16 +47,25 @@ class MyArtists extends StatelessWidget {
                                 artist.name,
                                 style: TextStyle(
                                     fontSize: 17,
-                                    fontWeight: FontWeight.w600,
+                                    color: MyAppTheme.instance.darkEnabled
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.w700,
                                     fontFamily: "Sans"),
                               ),
-                              Text("${artist.tracks.length} tracks"),
+                              Text(
+                                "${artist.tracks.length} tracks",
+                                style: TextStyle(fontSize: 15),
+                              ),
                             ],
                           ),
                         ],
                       ),
-                      CircleAvatar(
-                        child: Icon(Icons.play_arrow),
+                      Padding(
+                        padding: EdgeInsets.all(10),
+                        child: CircleAvatar(
+                          child: Icon(Icons.play_arrow),
+                        ),
                       )
                     ],
                   ),
