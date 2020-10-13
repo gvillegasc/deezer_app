@@ -40,24 +40,28 @@ class MyArtists extends StatelessWidget {
                           SizedBox(
                             width: 10,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                artist.name,
-                                style: TextStyle(
-                                    fontSize: 17,
-                                    color: MyAppTheme.instance.darkEnabled
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontWeight: FontWeight.w700,
-                                    fontFamily: "Sans"),
-                              ),
-                              Text(
-                                "${artist.tracks.length} tracks",
-                                style: TextStyle(fontSize: 15),
-                              ),
-                            ],
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  artist.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      color: MyAppTheme.instance.darkEnabled
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontWeight: FontWeight.w700,
+                                      fontFamily: "Sans"),
+                                ),
+                                Text(
+                                  "${artist.tracks.length} tracks",
+                                  style: TextStyle(fontSize: 15),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

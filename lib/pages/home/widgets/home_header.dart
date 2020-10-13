@@ -1,5 +1,6 @@
 import 'package:deezer_app/db/app_theme.dart';
 import 'package:deezer_app/pages/home/widgets/bird.dart';
+import 'package:deezer_app/utils/responsive.dart';
 import 'package:flutter/material.dart';
 
 // Widgets
@@ -21,6 +22,8 @@ class HomeHeader extends StatelessWidget {
         aspectRatio: 16 / 11,
         child: LayoutBuilder(
           builder: (_, BoxConstraints constraints) {
+            final Responsive responsiveHeader = Responsive.fromSize(
+                Size(constraints.maxWidth, constraints.maxHeight));
             return Stack(
               children: [
                 ClipPath(
@@ -53,14 +56,34 @@ class HomeHeader extends StatelessWidget {
                   )),
                 ),
                 Positioned(
+                  bottom: constraints.maxHeight * 0.25,
+                  left: 10,
+                  child: Text(
+                    "Welcome back \nMy Friend ...",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: responsiveHeader.ip(5.4)),
+                  ),
+                ),
+                Positioned(
                   top: 10,
                   left: 10,
                   child: SafeArea(
-                      child: Switch(
+                      child: Row(
+                    children: [
+                      Text(
+                        "Dark Mode:",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      Switch(
                           value: MyAppTheme.instance.darkEnabled,
                           onChanged: (value) {
                             MyAppTheme.instance.setTheme(value);
-                          })),
+                          }),
+                    ],
+                  )),
                 ),
               ],
             );

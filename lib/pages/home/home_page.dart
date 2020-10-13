@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
             key: _drawerKey,
             onTapClose: true,
             rightChild: Container(
-              color: Colors.white,
+              color: Theme.of(context).scaffoldBackgroundColor,
             ),
             scaffold: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
